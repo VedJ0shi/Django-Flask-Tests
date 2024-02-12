@@ -26,6 +26,8 @@ headline = article.h2.a.text
 summary = article.p.text
 print(headline)
 print(summary)
+print()
+
 #returning an iterable of all tags that match query:
 articles = soup.find_all("div", class_ = "article")
 print(type(articles))
