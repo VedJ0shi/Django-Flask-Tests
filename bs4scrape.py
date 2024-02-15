@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+#https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 
 with open("samples/articles.html") as wrapper:
     print(type(wrapper))
