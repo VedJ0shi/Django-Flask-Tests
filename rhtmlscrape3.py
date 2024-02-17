@@ -15,7 +15,7 @@ titles = []
 for item in items:
     imageinfo= item.find("img.thumbnail", first=True)
     #print(imageinfo.html)
-    print(imageinfo.attrs) #returns dictionary of img Tag attributes
+    print(imageinfo.attrs) #returns dictionary of img Tag's attributes
     titles.append(imageinfo.attrs["alt"])
     print()
 
