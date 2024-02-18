@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en"?>
+    <head>
+        <title>Is it New Year's?</title>
+    </head>
+    <body>
+        {% if datematch %}
+            <h1>YES</h1>
+        {% else %}
+            <h1>NO</h1>
+            <h2>{{ daysleft }} Days Left til New Year's!</h2>
+        {% endif %}
+    </body>
+</html>
