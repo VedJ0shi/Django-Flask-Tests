@@ -10,6 +10,9 @@
             <input type="text" name="task">
             <input type="submit">
         </form>
+        {% if newtask != None %}
+            <p> added {{newtask}} to your list!</p>
+        {% endif %}
         <a href="/todo/">View To Do List</a>
     </body>
 </html>
