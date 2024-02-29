@@ -19,6 +19,5 @@ def home(request):
     #return HttpResponse('<h1>Blog Homepage</h1>')
     return render(request, 'blog/home.html', {'posts': posts}) #render still returns an HTTP Response
 
-def about(request):
-    #return HttpResponse('<h1>About this Blog</h1>')
-    return render(request, 'blog/about.html')
+def about(request, date):
+    return render(request, 'blog/about.html', {"today": f"{date.month}/{date.day}"})
