@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('hello/', include('hello.urls')),
     path('newyear/', include('newyear.urls')),
-    path('todo/', include('dynamiclist.urls'))
+    path('todo/', include('dynamiclist.urls')),
+    path('flights/', include('flights.urls'))
 ]
