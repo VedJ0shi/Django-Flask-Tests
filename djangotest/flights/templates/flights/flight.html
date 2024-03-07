@@ -3,14 +3,31 @@
 {% block title %} Flight {% endblock %}
 
 {% block body %}
-<h1>{{flight}}</h1>
-<h4>Duration: {{flight.duration}} hrs</h4>
-<h4>Seats: {%if flight.is_full%}Booked {%else%}Available {%endif%}<h4>
+<div>
+    <h1>{{flight}}</h1>
+    <h4>Duration: {{flight.duration}} hrs</h4>
+    <h4>Seats: {%if flight.is_full%}Booked {%else%}Available {%endif%}<h4>
+</div>
+<div>
+    <ul>
+        <h3>Passenger list:</h3>
+        {%for passenger in passengers%}
+        <li> {{passenger}}, citizen of {{passenger.citizenship}} </li>
+        {%endfor%}
+    </ul>
+</div>
+<div>
+    <h3>Book a new passenger</h3>
+    <form method="post" action="{% url 'flights-book' flight.id %}">
+        {% csrf_token %}
+        <select name="passenger">
+            {% for person in non_passengers %}
+                <option value="{{person.name}}">{{person.name}}</option>
+            {% endfor %}
+        </select>
+        <input type="submit">
+    </form>
+</div>
 
-<ul>
-    <h3>Passenger list:</h3>
-    {%for passenger in passengers%}
-    <li> {{passenger}}, citizen of {{passenger.citizenship}} </li>
-    {%endfor%}
-</ul>
+
 {% endblock %}

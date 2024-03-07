@@ -36,7 +36,11 @@ class Flight(models.Model):
 class Passenger(models.Model):
     name = models.CharField(max_length=64)
     citizenship = models.CharField(max_length=64)
-    flights = models.ManyToManyField("Flight", blank=True, related_name="passengers")
+    flights = models.ManyToManyField("Flight", blank=True, related_name="passengers") #retrive QuerySet of all associated flights via passengerobj.flights.all()
+    #direct assignment to a ManyToManyField is disallowed
+    #can assign a new Flight object to flights by-- passengerobj.flights.add(flightobj)
+
+
 
     def __str__(self):
         return f"{self.name}"
