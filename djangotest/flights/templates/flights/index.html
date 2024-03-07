@@ -6,7 +6,7 @@
     <h1>Flight list</h1>
     <ul>
         {% for flight in flights %}
-            <li> {{flight}} | {{flight.duration}} hrs {% if flight.is_full == True %} | booked {% endif %}</li>
+            <li><a href="{{flight.id}}/">{{flight}}</a> | {{flight.duration}} hrs {% if flight.is_full == True %} | booked {% endif %}</li>
         {% endfor %}
     </ul>
 

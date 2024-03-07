@@ -16,11 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from schema_graph.views import Schema
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("schema/", Schema.as_view()), #visualization of models; not an actual frontend
     path('hello/', include('hello.urls')),
     path('newyear/', include('newyear.urls')),
     path('todo/', include('dynamiclist.urls')),
-    path('flights/', include('flights.urls'))
+    path('flights/', include('flights.urls')),
 ]

@@ -1,0 +1,16 @@
+{%extends 'flights/layout.html'%}
+
+{% block title %} Flight {% endblock %}
+
+{% block body %}
+<h1>{{flight}}</h1>
+<h4>Duration: {{flight.duration}} hrs</h4>
+<h4>Seats: {%if flight.is_full%}Booked {%else%}Available {%endif%}<h4>
+
+<ul>
+    <h3>Passenger list:</h3>
+    {%for passenger in passengers%}
+    <li> {{passenger}}, citizen of {{passenger.citizenship}} </li>
+    {%endfor%}
+</ul>
+{% endblock %}

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'schema_graph' #for django-schema-graph package
 ]
 
 MIDDLEWARE = [

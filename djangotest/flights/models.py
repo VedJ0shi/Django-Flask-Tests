@@ -8,7 +8,7 @@ attributes of the model, and each field stores the instance/object of an appropr
 Field class (i.e. CharField, BooleanField, etc - defined in the imported models module)
  '''
 
-'''a row of the table is an instance of the corresponding model'''
+'''a row of the table is an instance/object of the corresponding model'''
 
 #https://docs.djangoproject.com/en/5.0/ref/models/fields/#field-types
 
@@ -32,3 +32,12 @@ class Flight(models.Model):
 
     def __str__(self):
         return f"{self.origin}-->{self.destination}"
+
+class Passenger(models.Model):
+    name = models.CharField(max_length=64)
+    citizenship = models.CharField(max_length=64)
+    flights = models.ManyToManyField("Flight", blank=True, related_name="passengers")
+
+    def __str__(self):
+        return f"{self.name}"
+    
