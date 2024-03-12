@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
-    operations = [
+    operations = [ #list of executable changes to models (each one is an instantiation of an Operation class)
         migrations.CreateModel(
             name='Blogpost',
             fields=[
@@ -26,3 +26,11 @@ class Migration(migrations.Migration):
             ],
         ),
     ]
+'''Operation classes include:
+ Class/Table level changes like CreateModel, DeleteModel
+ Field/Column level changes like AddField, RemoveField, AlterField
+ General changes like AddIndex, RemoveIndex
+ '''
+#https://docs.djangoproject.com/en/5.0/ref/migration-operations/
+
+

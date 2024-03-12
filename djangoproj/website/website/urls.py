@@ -16,8 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from users import views as users_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('blog/', include('blog.urls')) #will match any url route that begins with blog/
+    path('blog/register/', users_views.register, name='users-register'), #will match url that exactly matches blog/register/ 
+    path('blog/', include('blog.urls')), #will match any url that begins with blog/
+    
 ]
