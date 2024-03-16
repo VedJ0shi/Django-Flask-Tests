@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.http import HttpResponse
 from .forms import *
 #auth.forms module contains several Form classes
 
@@ -11,9 +12,16 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f"Account created, welcome {username}") #produces flash message
-            return redirect('blog-home') #'blog-home' is the named url route that calls blog.views.home
+            messages.success(request, f"Account created! You can now login.") #produces flash message
+            return redirect('login') #'login' refers to the named route blog/login/
         
     elif request.method == "GET":
         form = MyRegistrationForm() #fresh form
-    return render(request, 'users/register.html', {"form": form})
+        return render(request, 'users/register.html', {"form": form})
+    
+def profile(request):
+    if request.user.is_authenticated: #request.user attribute contains info about currently logged-in user
+        return render(request, 'users/profile.html')
+        #request.user stores a validated instance of User model class from django.contrib.auth.models
+    else:
+        return redirect('login') 
