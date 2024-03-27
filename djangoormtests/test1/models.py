@@ -1,7 +1,7 @@
 from django.db import models
-import sys
+from .models2 import *
+#implements Recursive Model Relations and basic Model Methods
 
-# Create your models here.
 class Family(models.Model):
     name = models.CharField(max_length=32)  
     
@@ -33,7 +33,7 @@ class FamilyMember(models.Model):
                 if n > 1:
                     parent.prev_generations(n-1)
                     
-        if len(names) >= 1:            
+        if len(names) >= 1: #at least one parent provided           
             print(*names)
             
 
