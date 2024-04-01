@@ -5,6 +5,18 @@
 
 {% block content %}
         <div class="content-section">
-            <h1> {{user.username}} </h1>
+            <div class="media">
+                <img class="rounded-circle account-img" src="{{ user.profile.profpic.url }}" alt="">
+                <div class="media-body">
+                    <h2 class="account-heading">{{ user.username }}</h2>
+                    <p># of blog posts: {{ count }}</p>
+                    <h5>Friends:</h5>
+                    <ul style="list-style-type:none;">
+                        {% for friend in friends %}
+                        <li><a href="{% url 'users-profile-x' friend.user.username %}">{{ friend.user.username }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
 {% endblock %}
