@@ -1,7 +1,7 @@
 {% extends "blog/base.html" %}
 {% load crispy_forms_tags %}
 
-{% block title %} Log in {% endblock %}
+{% block title %} Profile {% endblock %}
 
 {% block content %}
         <div class="content-section">
@@ -18,5 +18,21 @@
                     </ul>
                 </div>
             </div>
+            {% if self %}
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Profile Info</legend>
+                    {{usform | crispy}}
+                    {{prform | crispy}}
+                </fieldset>
+                <input type="submit">
+            </form>
+            <div class="border-top pt-3">
+                <small class="text-muted">
+                    <a href="{% url 'login' %}">Update Profile</a> 
+                </small>
+            </div>
+            {% endif %}
         </div>
 {% endblock %}

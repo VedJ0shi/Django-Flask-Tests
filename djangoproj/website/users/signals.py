@@ -10,8 +10,10 @@ from .models import Profile
 def create_profile(sender, instance, created, **kwargs): #instance refers to instance of User
     if created:
         Profile.objects.create(user=instance)
-'''create_profile function is the receiver'''
+
 
 @receiver(post_save, sender=User)
 def update_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+'''create_profile and update_profile functions are the receivers'''

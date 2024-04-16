@@ -4,19 +4,21 @@
 {% block title %} Log in {% endblock %}
 
 {% block content %}
-        <div class="content-section">
-            <form method="POST">
-                {% csrf_token %}
-                <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">Login</legend>
-                    {{form | crispy}}
-                </fieldset>
-                <input type="submit">
-            </form>
-            <div class="border-top pt-3">
-                <small class="text-muted">
-                    Need an account? <a href="{% url 'users-register' %}">Join here</a> 
-                </small>
+        {% if not user.is_authenticated %}
+            <div class="content-section">
+                <form method="POST">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">Login</legend>
+                        {{form | crispy}}
+                    </fieldset>
+                    <input type="submit">
+                </form>
+                <div class="border-top pt-3">
+                    <small class="text-muted">
+                        Need an account? <a href="{% url 'users-register' %}">Join here</a> 
+                    </small>
+                </div>
             </div>
-        </div>
+        {% endif %}
 {% endblock %}
