@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{{request.session.message}}
+<form action="{% url 'form' %}" method='POST'>
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type='submit'>
+</form>
+
+{% endblock %}

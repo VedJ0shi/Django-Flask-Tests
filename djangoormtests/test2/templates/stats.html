@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for sale in sales %}
+<h5> $${{sale}}$$ {{sale.timestamp}} {{sale.restaurant}} {{sale.restaurant.cuisine}}</h5>
+
+{% endfor %}
+
+{% endblock %}
