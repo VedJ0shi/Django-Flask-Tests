@@ -6,7 +6,7 @@ from .models import *
 # Create your views here.
 def index(request):
     context = {}
-    restaurants = Restaurant.objects.prefetch_related('ratings') #caches all related objects for each of the instances in retrieved QuerySet
+    restaurants = Restaurant.objects.all().prefetch_related('ratings') #caches all related objects for each of the instances in retrieved QuerySet
     context['restaurants'] = restaurants
     return render(request, 'index.html', context)
 
@@ -17,7 +17,7 @@ def stats(request, cname=None):
         context['sales'] = sales
         return render(request, 'stats.html', context)
     else:
-        top_sales = Prefetch('sales', queryset=Sale.objects.filter(income__gte=60)) #first arg is the lookup in related model
+        top_sales = Prefetch('sales', queryset=Sale.objects.filter(income__gte=60)) #first arg is the lookup of related model
         try:
             restaurants = Restaurant.objects.filter(cuisine__iexact=cname).prefetch_related(top_sales)
         except:

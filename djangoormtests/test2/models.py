@@ -24,7 +24,11 @@ class Restaurant(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+class Staff(models.Model):
+    name = models.CharField(max_length=128)
+    restaurants = models.ManyToManyField(Restaurant) #this field will actually act as a manager (ManytoManyRelatedManager)
+    #each time 'restaurants' field is augmented, db creates a new row associating the staff_pk and restaurant_pk in Junction Table
 
 
 class Rating(models.Model):
