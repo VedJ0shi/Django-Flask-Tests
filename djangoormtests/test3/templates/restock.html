@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<ul>
+    <h3>Current Stock</h3>
+    {%for product in product_list%}
+    <p> {{product.name}}- {{product.number_in_stock}} </p>
+    {%endfor%}
+</ul>
+
+<form action="{% url 'restock-product' %}" method='POST'>
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type='submit'>
+</form>
+
+{% endblock %}

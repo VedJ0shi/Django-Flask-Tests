@@ -33,8 +33,9 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'test1',
     'test2',
+    'test3',
     'django_extensions', #now Django can find additional management commands in extensions
-    'debug_toolbar', #can optimize db queries
+    'debug_toolbar', #displays db queries
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

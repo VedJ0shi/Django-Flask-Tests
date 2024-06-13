@@ -12,7 +12,7 @@ def index(request):
 
 def stats(request, cname=None):
     context = {}
-    if cname==None:
+    if not cname:
         sales = Sale.objects.select_related('restaurant') #executes JOIN on Sale and Restaurant table and caches result
         context['sales'] = sales
         return render(request, 'stats.html', context)
