@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.db import transaction
 from .forms import *
-import sys
 
 # Create your views here.
 def restock(request):
