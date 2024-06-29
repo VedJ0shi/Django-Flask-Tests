@@ -1,78 +1,87 @@
-#simulating web client communicating to our server via JSON messages
 from flask import Flask, request
 import json
+import dbinterface
+
+driver = dbinterface.DatabaseDriver()
 
 app = Flask(__name__)   #Flask Application instance
 
-tasks = {
-    0: {
-        'id': 0,
-        'description': 'walk Spock',
-        'done': False       
-    },
-    1: {
-        'id': 1,
-        'description': 'homework',
-        'done': False
-    }
-} #non-persisting data store
+
+def success_response(data, code=200):
+    return json.dumps({'success':True, 'data':data}), code
+
+def failure_response(error, code=404):
+    return json.dumps({'success':False, 'error':error}), code
 
 
+#each of the below endpoints/functions performs a database operation and returns an HTTP response:
 @app.route('/tasks/')
 def get_tasks():
-    res = {
-        'success': True,
-        'data': list(tasks.values())
-    }
-    return json.dumps(res), 200
+    return success_response(driver.get_all_tasks())
 
 
 @app.route('/tasks/', methods=['POST'])
 def create_task():
-    task_id = max(tasks) + 1 #max(dic) returns its greatest key
     post_body = json.loads(request.data)
-    description = post_body.get('description', None) #gets the value from dic post_body
-    task = {'id': task_id,
-        'description': description,
-        'done': False } #establishes new task
-    tasks[task_id] = task #saves new task
-    return json.dumps({'success': True, 'data': task}), 201  #object created and saved to 'tasks' on server-side
+    description = post_body.get('description')
+    if description:
+        new_id = driver.insert_task(description)
+        return success_response(driver.get_task_by_id(new_id))
+    return failure_response('No task description provided', 400)
+
+@app.route('/tasks/<int:task_id>')
+def get_task(task_id):
+    task = driver.get_task_by_id(task_id)
+    if task:
+        return success_response(task)
+    return failure_response('Task not found')
     
     
 @app.route('/tasks/<int:task_id>', methods=['PUT'])
 def update_task(task_id):
-    task = tasks.get(task_id)
+    task = driver.get_task_by_id(task_id)
     if not task:
-        return json.dumps({'success': False, 'error': 'Task not found'}), 404
+        return failure_response('Task not found')
     put_body = json.loads(request.data)
-    actions = put_body.get('actions', None)
-    updates = []
-    if not actions:
-        return json.dumps({'success': True, 'update': None, 'data': tasks[task_id]}), 200
-    if actions.get('update-description'):
-        tasks[task_id]['description'] = actions.get('update-description')
-        updates.append('description')
-    if actions.get('update-done'):
-        tasks[task_id]['done'] = not tasks[task_id]['done']
-        updates.append('done')
-    return json.dumps({'success': True, 'update': updates, 'data': tasks[task_id]}), 200
+    actions = put_body.get('actions')
+    if not actions or not isinstance(actions, dict):
+        return failure_response('Invalid format for PUT request')
+    driver.update_task_by_id(task_id, **actions)
+    return success_response(driver.get_task_by_id(task_id))
+
+
 
 @app.route('/tasks/<int:task_id>', methods=['DELETE'])
 def delete_task(task_id):
-    task = tasks.get(task_id)
+    task = driver.get_task_by_id(task_id)
     if not task:
-        return json.dumps({'success': False, 'error': 'Task not found'}), 404
-    del tasks[task_id]
-    return json.dumps({'success': True, 'data': list(tasks.values())}), 200
+        return failure_response('Task not found')
+    driver.delete_task_by_id(task_id)
+    return success_response(task)
 
 
-@app.route('/hello/')
-def hello():
-    return 'Hello world'
+@app.route('/tasks/<int:task_id>/subtask')
+def get_subtasks(task_id):
+    task = driver.get_task_by_id(task_id)
+    if not task:
+        return failure_response('Task not found')
+    return success_response(driver.get_subtasks_of_task(task_id))
+
+
+@app.route('/tasks/<int:task_id>/subtask', methods=['POST'])
+def create_subtask(task_id):
+    post_body = json.loads(request.data)
+    task = driver.get_task_by_id(task_id)
+    if not task:
+        return failure_response('Task not found')
+    description = post_body.get('description')
+    new_id = driver.insert_subtask(description, task_id)
+    return success_response(driver.get_subtask_by_id(new_id))
+
 
 
 if __name__ == '__main__':
-    print('Registered routes:')
-    for route in app.url_map.iter_rules():  #url_map attribute is an instance of werkzeug.routing.Map (server routing map)
+    print('Registered app routes:')
+    for route in app.url_map.iter_rules():  
         print(route.rule,'-->', route.endpoint)
     app.run(host='127.0.0.1', port=5000, debug=True)
