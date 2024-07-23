@@ -1,0 +1,6 @@
+__pycache__
+*.db
+instance/*.db
+app_basic.py 
+app_orm.py
+dbmodels.py

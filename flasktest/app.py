@@ -26,7 +26,7 @@ def create_task():
     description = post_body.get('description')
     if description:
         new_id = driver.insert_task(description)
-        return success_response(driver.get_task_by_id(new_id))
+        return success_response(driver.get_task_by_id(new_id), 201)
     return failure_response('No task description provided', 400)
 
 @app.route('/tasks/<int:task_id>')
@@ -84,4 +84,4 @@ if __name__ == '__main__':
     print('Registered app routes:')
     for route in app.url_map.iter_rules():  
         print(route.rule,'-->', route.endpoint)
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

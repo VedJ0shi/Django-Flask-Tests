@@ -6,6 +6,11 @@ class DatabaseDriver:
     def __init__(self):
         self.conn = sqlite3.connect('todo.db', check_same_thread=False) #implicitly creates file if none exists
         self.cur = self.conn.cursor()
+        try:
+            self.create_task_table()
+            self.create_subtask_table()
+        except:
+            pass
 
 
     def create_task_table(self):
@@ -191,13 +196,14 @@ class DatabaseDriver:
             ''' SELECT * FROM subtask WHERE task_id=?; ''',
             (fid,)
         )
+        primary_task = self.get_task_by_id(fid)['description']
         subtasks = []
         for row in cursor:
             subtasks.append({
                 "id": row[0],
                 "description": row[1],
                 "done": bool(row[2]),
-                "primary task": self.get_task_by_id(fid)['description']
+                "primary task": primary_task
             })
         return subtasks
     
