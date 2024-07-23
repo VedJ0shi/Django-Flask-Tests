@@ -1,1 +1,6 @@
 djangoproj/django_venv/
+*/instance/
+*/*.dockerignore
+*/Dockerfile
+*/requirements.txt
+*/*.db
