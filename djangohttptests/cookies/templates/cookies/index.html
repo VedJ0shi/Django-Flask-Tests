@@ -1,0 +1,59 @@
+<!-- random_string.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies</title>
+</head>
+<body>
+    <div class="container">
+        <div id="result">
+            <button type="button" onclick="generateAndDisplayString()">Generate Random Cookie</button>
+        </div>
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Request Cookie from Server">
+        </form>
+    </div>
+    <div class="container">
+        <h2>Current Cookies {% if path %} (for {{path}}) {% endif %}:</h2>
+        <ul id="cookieList"></ul>
+    </div>
+
+    <script>
+        function generateRandomBase64String(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+            let result = '';
+            const charactersLength = characters.length;
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+
+        function generateAndDisplayString() {
+            const randomString = generateRandomBase64String(16);
+            document.getElementById('result').textContent = randomString;
+            document.getElementById('id_random_str').value = randomString;
+        }
+
+        function getCookies() {
+            const cookies = document.cookie.split('; ');
+            const cookieList = document.getElementById('cookieList');
+            cookieList.innerHTML = ''; // Clear any existing cookies in the list
+
+            cookies.forEach(cookie => {
+                const listItem = document.createElement('li');
+                listItem.textContent = cookie;
+                cookieList.appendChild(listItem);
+            });
+        }
+
+        // Call the function to display cookies when the page loads
+        window.onload = getCookies;
+    </script>
+</body>
+</html>
